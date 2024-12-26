@@ -1,0 +1,19 @@
+import requests as r
+l2=[]
+semandyeardict={1:'23T1',2:'23T2',3:'22T3',4:'22T4',5:'21T5',6 : '21T6' ,7:'20T7'}
+for semandyear in semandyeardict.keys():
+    l=[]
+    for i in range(1,200):
+        s=str(r.get('http://results.ietdavv.edu.in/DisplayStudentResult?rollno='+semandyeardict[semandyear]+str(i).zfill(3)+'&typeOfStudent=Regular').content)
+        x=s.find("SGPA")
+        z=x+40
+        try:
+            while s[z]!='<' :
+                z+=1
+            l.append(float(s[x+40:z]))
+        except:
+            continue
+        print('completed for' + semandyeardict[semandyear]+str(i).zfill(3))
+    avg=round(sum(l)/len(l),3)
+    l2.append('average for sem ' + str(semandyear)+ ' is '+ str(avg))
+print(l2)
